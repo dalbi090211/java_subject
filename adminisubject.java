@@ -1,5 +1,3 @@
-package ch03;
-
 import java.awt.*;
 import javax.swing.*;
 
