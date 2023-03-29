@@ -86,12 +86,13 @@ public class console{
     		    String sLine = null;
     		    while( (sLine = inFile.readLine()) != null ) {	//한 줄씩 읽어들임
         			//객체추가
+                    Str_temp = sLine.split("\\s");
                     temp1 = null;
                     temp2 = null;
                     temp1 = Str_temp[3];
                     temp2 = Str_temp[1];
     		    	 customers.add(new User_info(Str_temp[0], Str_temp[2], Integer.parseInt(temp1), Integer.parseInt(temp2)));
-                     arr_max += 1;
+                     arr_max++;
     		    }
                 //reader닫음
                 inFile.close();
@@ -110,9 +111,9 @@ public class console{
         //기능 실행
         while(end_flag){
             System.out.println("------------------------------------------------------------------");
-			System.out.println("1. 고객 추가   |   2. 고객 삭제   |   3. 고객리스트   |   4. 고객 정보 수정   |   5. 종료");
+			System.out.println("1. 고객 추가   |   2. 고객 삭제   |   3. 고객리스트   |   4. 고객정보조회   |   5. 종료");
 			System.out.println("------------------------------------------------------------------");
-			System.out.print("실행할 번호를 입력하세요:");
+			System.out.print("실행할 번호를 입력하세요 : ");
 			user_choice = sc.nextInt();
 
             switch(user_choice){
@@ -128,6 +129,7 @@ public class console{
                     System.out.print("나이 : ");
                     age = sc.nextInt();
                     customers.add(new User_info(name, mvp, grade, age));
+                    arr_max++;
                     break;
                 //고객리스트 출력
                 case 3 : 
@@ -135,13 +137,27 @@ public class console{
                 	for(i = 0 ; i  < arr_max; i++) {
                     	customers.get(i).print_information();
                 	}
+                    System.out.println("------------------------------------------------------------------");
+                    System.out.println("1. 고객 삭제   |  2. 고객 정보 수정   |   3. 종료");
+                    System.out.println("------------------------------------------------------------------");
+                    System.out.println("실행할 번호를 입력하세요 : ");
+                    user_choice = sc.nextInt();
+                    switch(user_choice){
+                        case 1 :
+                            System.out.println("삭제할 학생의 번호를 입력해주세요.(0입력 시 지우지않음)");
+                            if(user_choice!=0){
+                                customers.remove(user_choice);
+                                arr_max--;
+                            }
+                            break;
+                    }
                     break;
                 //종료
                 case 5 : 
                     end_flag = false;
                     break;
             }
-            //System.out.print("\033[H\033[2J");
+            System.out.print("\033[H\033[2J");
         }
         sc.close();
     }
