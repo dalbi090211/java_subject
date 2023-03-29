@@ -14,6 +14,7 @@ class User_info {   //고객의 정보를 담을 객체
     int grade, age;
     
     //constructor
+    /* name, mvp, grade, age순으로 등록 */
     public User_info(String name, String mvp, int grade, int age){
         this.name = name;
         this.mvp = mvp;
@@ -52,7 +53,7 @@ class User_info {   //고객의 정보를 담을 객체
     }
     /*값을 전부 출력하는 함수*/
     public void print_information(){
-        System.out.println("[ 고객이름: " + name + " , mvp등급: " + mvp + " , 학년: " + grade + " , 나이: " + age + " ]");
+        System.out.println("[ 이름 : " + name + " 나이 : " + age + " 등급 : " + mvp + " 학년 : " + grade  + " ]");
     }
     
 }
@@ -65,9 +66,10 @@ public class console{
         //변수 선언
     	int i;	//인자
         Boolean end_flag = true;	//프로그램의 종료 트리거
-        int user_choice, arr_max;
+        int user_choice, arr_max = 0;
         Scanner sc = new Scanner(System.in);
-        String name, mvp, grade, age;
+        String name, mvp;
+        int grade, age;
         String[] Str_temp = new String[4];
         
         //고객리스트 생성
@@ -75,6 +77,7 @@ public class console{
         
         //파일 불러오기
         try {
+            String temp1, temp2;
         	File data = new File("data.txt");
     		if(data.exists())	//남은 문장이 없을 때 까지
     		{	
@@ -82,22 +85,16 @@ public class console{
     		    BufferedReader inFile = new BufferedReader(new FileReader(data));
     		    String sLine = null;
     		    while( (sLine = inFile.readLine()) != null ) {	//한 줄씩 읽어들임
-    		    	//변수초기화
-        			name = null;
-        			mvp = null;
-        			grade = null; 
-        			age = null;
-        			Str_temp = null;
-        			
-        			//공백문자 기준으로 끊음
-        			Str_temp = sLine.split("\\s");
-        			name = Str_temp[0];
-        			mvp = Str_temp[1];
-        			grade = Str_temp[2];
-        			age = Str_temp[3];
         			//객체추가
-    		    	 customers.add(new User_info(name, mvp, Integer.parseInt(grade), Integer.parseInt(age)));
+                    temp1 = null;
+                    temp2 = null;
+                    temp1 = Str_temp[3];
+                    temp2 = Str_temp[1];
+    		    	 customers.add(new User_info(Str_temp[0], Str_temp[2], Integer.parseInt(temp1), Integer.parseInt(temp2)));
+                     arr_max += 1;
     		    }
+                //reader닫음
+                inFile.close();
     		}
         	
         }
@@ -109,7 +106,7 @@ public class console{
         	System.out.println("잘못된 파일 입니다.");
         	end_flag = false;
         }
-
+        System.out.println("arr_max = " + arr_max);
         //기능 실행
         while(end_flag){
             System.out.println("------------------------------------------------------------------");
@@ -119,14 +116,33 @@ public class console{
 			user_choice = sc.nextInt();
 
             switch(user_choice){
+                //추가
+                case 1 : 
+                    System.out.print("\033[H\033[2J");
+                    System.out.print("이름 : ");
+                    name = sc.next();
+                    System.out.print("등급 : ");
+                    mvp = sc.next();
+                    System.out.print("학년 : ");
+                    grade = sc.nextInt();
+                    System.out.print("나이 : ");
+                    age = sc.nextInt();
+                    customers.add(new User_info(name, mvp, grade, age));
+                    break;
+                //고객리스트 출력
                 case 3 : 
+                    System.out.print("\033[H\033[2J");
                 	for(i = 0 ; i  < arr_max; i++) {
                     	customers.get(i).print_information();
                 	}
-                case 5 : end_flag = false;
+                    break;
+                //종료
+                case 5 : 
+                    end_flag = false;
+                    break;
             }
-            System.out.print("\033[H\033[2J");
+            //System.out.print("\033[H\033[2J");
         }
-
+        sc.close();
     }
 }
