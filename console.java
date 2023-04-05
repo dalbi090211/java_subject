@@ -8,6 +8,7 @@ import java.io.IOException;	//잘못된 형식의 파일일 경우
 
 
 
+
 class User_info {   //고객의 정보를 담을 객체
     //변수
     String name, mvp;
@@ -60,6 +61,19 @@ class User_info {   //고객의 정보를 담을 객체
 
 
 public class console{
+
+    public static void print_menu() {
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
+        System.out.println("------------------------------------------------------------------");
+        System.out.print("실행할 번호를 입력하세요 : ");		
+    }
+
+    public static User_info adjust_information(User_info customer){
+        
+        
+        return customer;
+    }
 	
     public static void main(String args[]){
     	
@@ -97,7 +111,6 @@ public class console{
                 //reader닫음
                 inFile.close();
     		}
-        	
         }
         catch(FileNotFoundException e) {	//파일을 찾을 수 없을 때
         	System.out.println("파일을 찾을 수 없습니다.");
@@ -107,12 +120,10 @@ public class console{
         	System.out.println("잘못된 파일 입니다.");
         	end_flag = false;
         }
-        System.out.println("arr_max = " + arr_max);
-        //기능 실행
+
+        //프로그램실행, 6번을 입력받아 end_flag가 flase가 되면 종료
         while(end_flag){
-            System.out.println("------------------------------------------------------------------");
-			System.out.println("1. 고객 추가   |   2. 고객 삭제   |   3. 고객리스트   |   4. 고객정보조회   |   5. 종료");
-			System.out.println("------------------------------------------------------------------");
+            print_menu();
 			System.out.print("실행할 번호를 입력하세요 : ");
 			user_choice = sc.nextInt();
 
@@ -145,7 +156,8 @@ public class console{
                     switch(user_choice){
                         case 1 :
                             System.out.println("삭제할 학생의 번호를 입력해주세요.(0입력 시 지우지않음)");
-                            if(user_choice!=0){
+                            user_choice = sc.nextInt();
+                            if(user_choice!=0 && user_choice < arr_max - 1){
                                 customers.remove(user_choice);
                                 arr_max--;
                             }
