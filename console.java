@@ -8,8 +8,15 @@ import java.io.IOException;	//잘못된 형식의 파일일 경우
 
 
 
+interface User {
+    public static final String name = null;
+    public static final String mvp = null;
+    public static final int grade = 0;
+    public static final int age = 0;
+    public static final String[] column_Name = {"name", "mvp" , "grade", "age"};
+}
 
-class User_info {   //고객의 정보를 담을 객체
+class User_info implements User{   //고객의 정보를 담을 객체
     //변수
     String name, mvp;
     int grade, age;
@@ -62,6 +69,8 @@ class User_info {   //고객의 정보를 담을 객체
 
 public class console{
 
+    static Scanner sc = new Scanner(System.in);
+
     public static void print_menu() {
         System.out.println("------------------------------------------------------------------");
         System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
@@ -74,6 +83,29 @@ public class console{
         
         return customer;
     }
+
+    //열의 경우 정해진 값이므로 length를 가져옴. 행의 경우 동적인 값이므로 리턴값으로 사용.
+    public static void SELECT(){
+
+        ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
+        String column_input = null;
+
+        System.out.print("SELECT : ");
+        column_input = sc.next();
+        if(column_input == "*"){
+            
+        }
+        for(int i = 0 ; i < User.column_Name.length ; i++){
+            if(column_input == User.column_Name[i]){
+                continue;
+            }
+        }
+        joined_Arr = joined_Arr;
+        System.out.print("WHERE : ");
+        joined_Arr = where(joined_Arr);
+        System.out.print("ORDERBY : ");
+    }
+
 	
     public static void main(String args[]){
     	
@@ -81,7 +113,6 @@ public class console{
     	int i;	//인자
         Boolean end_flag = true;	//프로그램의 종료 트리거
         int user_choice, arr_max = 0;
-        Scanner sc = new Scanner(System.in);
         String name, mvp;
         int grade, age;
         String[] Str_temp = new String[4];
