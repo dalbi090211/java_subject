@@ -3,7 +3,8 @@
 DDL(Data Definition Language)과 DML(Data Manipulation Language) 중 DML의 select, delete, update,
 insert문을 구현한다.추가적으로 사용되는 where, order by 역시 구현한다.
 
-콘솔 설계 : 
+해야될거 : 
 
-
-정해야 할 부분 : 고객정보의 개수. ex : 
+1. 입력잘못되면 예외던지고 아니면 입력값리턴하는 객체만들어서 입력관리하기.
+2. select, where, order by, delete, update구현
+3. 시간나면 main에서 다 처리하지말고 중앙객체만들어서 멀티스레드 구현하기.

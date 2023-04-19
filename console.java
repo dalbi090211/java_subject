@@ -87,7 +87,7 @@ public class console{
     //열의 경우 정해진 값이므로 length를 가져옴. 행의 경우 동적인 값이므로 리턴값으로 사용.
     public static void SELECT(){
 
-        ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
+        //ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
         String column_input = null;
 
         System.out.print("SELECT : ");
@@ -100,12 +100,16 @@ public class console{
                 continue;
             }
         }
-        joined_Arr = joined_Arr;
+       //joined_Arr = joined_Arr;
         System.out.print("WHERE : ");
-        joined_Arr = where(joined_Arr);
+        //joined_Arr = where(joined_Arr);
         System.out.print("ORDERBY : ");
     }
 
+    //입력을 관리하는 객체
+    public static admin_Input{
+        public static 
+    }
 	
     public static void main(String args[]){
     	
