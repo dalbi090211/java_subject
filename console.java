@@ -66,51 +66,33 @@ class User_info implements User{   //고객의 정보를 담을 객체
     
 }
 
+public static void print_menu() {
+    System.out.println("------------------------------------------------------------------");
+    System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
+    System.out.println("------------------------------------------------------------------");
+    System.out.print("실행할 번호를 입력하세요 : ");		
+}
+
+public static User_info adjust_information(User_info customer){
+    
+    
+    return customer;
+}
+
+//열의 경우 정해진 값이므로 length를 가져옴. 행의 경우 동적인 값이므로 리턴값으로 사용.
+
+
+//입력을 관리하는 객체
+/*public static admin_Input{
+    public static 
+}
+*/
+
 
 public class console{
 
     static Scanner sc = new Scanner(System.in);
 
-    public static void print_menu() {
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
-        System.out.println("------------------------------------------------------------------");
-        System.out.print("실행할 번호를 입력하세요 : ");		
-    }
-
-    public static User_info adjust_information(User_info customer){
-        
-        
-        return customer;
-    }
-
-    //열의 경우 정해진 값이므로 length를 가져옴. 행의 경우 동적인 값이므로 리턴값으로 사용.
-    public static void SELECT(){
-
-        //ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
-        String column_input = null;
-
-        System.out.print("SELECT : ");
-        column_input = sc.next();
-        if(column_input == "*"){
-            
-        }
-        for(int i = 0 ; i < User.column_Name.length ; i++){
-            if(column_input == User.column_Name[i]){
-                continue;
-            }
-        }
-       //joined_Arr = joined_Arr;
-        System.out.print("WHERE : ");
-        //joined_Arr = where(joined_Arr);
-        System.out.print("ORDERBY : ");
-    }
-
-    //입력을 관리하는 객체
-    public static admin_Input{
-        public static 
-    }
-	
     public static void main(String args[]){
     	
         //변수 선언
