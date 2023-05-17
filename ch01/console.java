@@ -1,3 +1,5 @@
+package ch01;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;	//txt파일을 불러올 패키지
@@ -7,89 +9,14 @@ import java.io.BufferedReader;	//버퍼
 import java.io.IOException;	//잘못된 형식의 파일일 경우
 
 
-
-interface User {
-    public static final String name = null;
-    public static final String mvp = null;
-    public static final int grade = 0;
-    public static final int age = 0;
-    public static final String[] column_Name = {"name", "mvp" , "grade", "age"};
-}
-
-class User_info implements User{   //고객의 정보를 담을 객체
-    //변수
-    String name, mvp;
-    int grade, age;
-    
-    //constructor
-    /* name, mvp, grade, age순으로 등록 */
-    public User_info(String name, String mvp, int grade, int age){
-        this.name = name;
-        this.mvp = mvp;
-        this.grade = grade;
-        this.age = age;
-    }
-
-    //Setter함수
-    public void set_name(String name){
-        this.name = name; 
-    }
-
-    public void set_mvp(String mvp){
-        this.mvp = mvp; 
-    }
-
-    public void set_grade(int grade){
-        this.grade = grade; 
-    }
-
-    public void set_age(int age){
-        this.age = age; 
-    }
-    //Getter함수
-    public String get_name(){
-        return name;
-    }
-    public String get_mvp(){
-        return mvp;
-    }
-    public int get_grade(){
-        return grade;
-    }
-    public int get_age(){
-        return age;
-    }
-    /*값을 전부 출력하는 함수*/
-    public void print_information(){
-        System.out.println("[ 이름 : " + name + " 나이 : " + age + " 등급 : " + mvp + " 학년 : " + grade  + " ]");
-    }
-    
-}
-
-public static void print_menu() {
-    System.out.println("------------------------------------------------------------------");
-    System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
-    System.out.println("------------------------------------------------------------------");
-    System.out.print("실행할 번호를 입력하세요 : ");		
-}
-
-public static User_info adjust_information(User_info customer){
-    
-    
-    return customer;
-}
-
-//열의 경우 정해진 값이므로 length를 가져옴. 행의 경우 동적인 값이므로 리턴값으로 사용.
-
-
-//입력을 관리하는 객체
-/*public static admin_Input{
-    public static 
-}
-*/
-
-
 public class console{
+
+    public static void print_menu() {
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
+        System.out.println("------------------------------------------------------------------");
+        System.out.print("실행할 번호를 입력하세요 : ");		
+    }
 
     static Scanner sc = new Scanner(System.in);
 
