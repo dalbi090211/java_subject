@@ -55,12 +55,11 @@ class User_info implements User{   //고객의 정보를 담을 객체
     public void print_information(){
         System.out.println("[ 이름 : " + name + " 나이 : " + age + " 등급 : " + mvp + " 학년 : " + grade  + " ]");
     }
-}
 
 public void SELECT(){
 
     //ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
-    String[] selected_column[USER.column_Name.length];
+    String[] selected_column = new String[USER.column_Name.length];
     String[] operator[3];
     int i = 0 ;
     System.out.print("SELECT : ");
@@ -98,4 +97,6 @@ public void SELECT(){
 
     }
     
+}
+
 }

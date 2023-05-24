@@ -66,14 +66,17 @@ public class console{
         }
 
         //프로그램실행, 6번을 입력받아 end_flag가 flase가 되면 종료
-        while(end_flag){
+        while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END순서
             print_menu();
 			System.out.print("실행할 번호를 입력하세요 : ");
 			user_choice = sc.nextInt();
 
             switch(user_choice){
+                case 1 :
+                    
+                    break;
                 //추가
-                case 1 : 
+                case 2 : 
                     System.out.print("\033[H\033[2J");
                     System.out.print("이름 : ");
                     name = sc.next();
@@ -83,6 +86,7 @@ public class console{
                     grade = sc.nextInt();
                     System.out.print("나이 : ");
                     age = sc.nextInt();
+                    ///입력값(이름, 등급, 학년, 나이등)에 따른 예외처리 필요
                     customers.add(new User_info(name, mvp, grade, age));
                     arr_max++;
                     break;
@@ -96,6 +100,7 @@ public class console{
                     System.out.println("1. 고객 삭제   |  2. 고객 정보 수정   |   3. 종료");
                     System.out.println("------------------------------------------------------------------");
                     System.out.println("실행할 번호를 입력하세요 : ");
+                    //번호에 따른 예외처리 필요
                     user_choice = sc.nextInt();
                     switch(user_choice){
                         case 1 :
@@ -115,6 +120,7 @@ public class console{
             }
             System.out.print("\033[H\033[2J");
         }
+        System.out.println("정상적인 종료입니다.");
         sc.close();
     }
 }
