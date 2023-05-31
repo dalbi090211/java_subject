@@ -11,6 +11,10 @@ import java.io.IOException;	//잘못된 형식의 파일일 경우
 
 public class console{
 
+    public static void view {
+        int column[]
+    }
+
     public static void print_menu() {
         System.out.println("------------------------------------------------------------------");
         System.out.println("1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END");
@@ -72,7 +76,7 @@ public class console{
 			user_choice = sc.nextInt();
 
             switch(user_choice){
-                case 1 :
+                case 1 :    
                     
                     break;
                 //추가
