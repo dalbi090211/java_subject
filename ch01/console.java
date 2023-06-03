@@ -25,13 +25,14 @@ public class console{
     public static void main(String args[]){
     	
         //변수 선언
-    	int i;	//
+        int  i, j;
         Boolean end_flag = true;	//프로그램의 종료 트리거
         int user_choice, arr_max = 0;
         String name, mvp;
         int grade, age;
         String[] Str_temp = new String[4];
         view view1 = new view();
+        String temp = "";
         
         //고객리스트 생성
         ArrayList<User_info> customers = new ArrayList<User_info>();
@@ -72,18 +73,31 @@ public class console{
         while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END 순서
             print_menu();
 			user_choice = sc.nextInt();
+            sc.nextLine();  //입력버퍼 비우기
 
             switch(user_choice){
                 case 1 :    
+
+                //출력할 열 설정
+                    j = 0;
                     System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
-                    String temp = sc.next();
-                    System.out.println(temp);
-                    String[] array = temp.split(" ");
-                    for(i = 0 ; i < array.length ; i ++){
-                        System.out.println(array[i]);
+                    temp = sc.nextLine();
+                    String[] divided_temp = temp.split(" ");
+                    System.out.println("length : " + divided_temp.length);
+                    for(int k = 0 ; k < divided_temp.length ; k++){
+                        for( i = 0 ; i < User.row_Name.length ; i++){
+                            if(divided_temp[k] == User.row_Name[i]){
+                                view1.row_Num[j] = i;
+                                j++;
+                                System.out.println ("j : " + j );
+                                i = 50;
+                            }
+                        }
                     }
-                    System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
-                    temp = sc.next();
+                    for(int k = 0 ; k < j ; k++){
+
+                        System.out.println(view1.row_Num[k]);
+                    }   
                     break;
                 //추가
                 case 2 : 
@@ -128,7 +142,7 @@ public class console{
                     end_flag = false;
                     break;
             }
-            System.out.print("\033[H\033[2J");
+            /*System.out.print("\033[H\033[2J");*/
         }
         System.out.println("정상적인 종료입니다.");
         sc.close();
