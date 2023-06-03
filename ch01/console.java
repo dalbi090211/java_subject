@@ -11,9 +11,7 @@ import java.io.IOException;	//잘못된 형식의 파일일 경우
 
 public class console{
 
-    public static void view {
-        int column[]
-    }
+    
 
     public static void print_menu() {
         System.out.println("------------------------------------------------------------------");
@@ -27,12 +25,13 @@ public class console{
     public static void main(String args[]){
     	
         //변수 선언
-    	int i;	//인자
+    	int i;	//
         Boolean end_flag = true;	//프로그램의 종료 트리거
         int user_choice, arr_max = 0;
         String name, mvp;
         int grade, age;
         String[] Str_temp = new String[4];
+        view view1 = new view();
         
         //고객리스트 생성
         ArrayList<User_info> customers = new ArrayList<User_info>();
@@ -69,15 +68,20 @@ public class console{
         	end_flag = false;
         }
 
-        //프로그램실행, 6번을 입력받아 end_flag가 flase가 되면 종료
-        while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END순서
+        //프로그램실행, 5번을 입력받아 end_flag가 flase가 되면 종료
+        while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END 순서
             print_menu();
 			System.out.print("실행할 번호를 입력하세요 : ");
 			user_choice = sc.nextInt();
 
             switch(user_choice){
                 case 1 :    
-                    
+                    System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
+                    String temp = sc.nextLine();
+                    String[] array = temp.split(" ");
+                    for(i = 0 ; i < array.length ; i ++){
+                        System.out.println(array[i]);
+                    }
                     break;
                 //추가
                 case 2 : 

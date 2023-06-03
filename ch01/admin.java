@@ -5,7 +5,12 @@ interface User {    //데이터가 어떤 양식으로 들어와야하는지 정
     public static final String mvp = null;
     public static final int grade = 0;
     public static final int age = 0;
-    public static final String[] column_Name = {"name", "mvp" , "grade", "age"};
+    public static final String[] row_Name = {"name", "mvp" , "grade", "age"};
+}
+
+class view {
+    int[] row_Num = new int[User.row_Name.length];
+    int[] column_Num;
 }
 
 class User_info implements User{   //고객의 정보를 담을 객체
@@ -55,48 +60,5 @@ class User_info implements User{   //고객의 정보를 담을 객체
     public void print_information(){
         System.out.println("[ 이름 : " + name + " 나이 : " + age + " 등급 : " + mvp + " 학년 : " + grade  + " ]");
     }
-
-public void SELECT(){
-
-    //ArrayList<User_info> joined_Arr = new ArrayList<User_info>();
-    String[] selected_column = new String[USER.column_Name.length];
-    String[] operator[3];
-    int i = 0 ;
-    System.out.print("SELECT : ");
-    while(sc.next() == null){
-        selected_column[i] = sc.next();
-        for(int i = 0 ; i < )
-        i++;
-    }
-    //받은 문자열에 대한 예외처리 필요함
-
-    //joined_Arr = joined_Arr;
-    System.out.print("WHERE : ");
-    {
-        for(int i = 0 ; i < 3; i++){
-            operator[i] = sc.next();
-        }
-
-        try{
-            operator[0] = Integer.parseInt(operator[0]);
-            //인덱스 2번이 열이름인 경우
-            switch(operator[1]){
-
-            }
-
-        }catch(NumberFormatException e){    //인덱스 0번이 열이름인 경우
-            operator[2] = Integer.parseInt(operator[2]);
-
-            
-        }
-    }
-    //joined_Arr = where(joined_Arr);
-    System.out.print("ORDERBY : ");
-
-    for(int i = 0; i < selected_column.length ; i++){
-
-    }
-    
-}
 
 }
