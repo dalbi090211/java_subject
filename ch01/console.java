@@ -71,17 +71,19 @@ public class console{
         //프로그램실행, 5번을 입력받아 end_flag가 flase가 되면 종료
         while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END 순서
             print_menu();
-			System.out.print("실행할 번호를 입력하세요 : ");
 			user_choice = sc.nextInt();
 
             switch(user_choice){
                 case 1 :    
                     System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
-                    String temp = sc.nextLine();
+                    String temp = sc.next();
+                    System.out.println(temp);
                     String[] array = temp.split(" ");
                     for(i = 0 ; i < array.length ; i ++){
                         System.out.println(array[i]);
                     }
+                    System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
+                    temp = sc.next();
                     break;
                 //추가
                 case 2 : 
