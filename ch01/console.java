@@ -70,7 +70,7 @@ public class console{
 
             switch(user_choice){    
                 case 1 :    //select를 선택한 경우
-
+                    int end_count = 0;
                     //출력할 열 설정부분
                     j = 0;
                     System.out.print("출력할 열항목 혹은 '*'을 입력해주세요(열 이름 : name, age, mvp, grade)");
@@ -83,7 +83,7 @@ public class console{
                             }
                             break;
                         }
-                        // '*'이 아닌 경우
+                        // '*'이 아닌 경우 하나하나씩 row의 인덱스를 view1에 등록
                         for( i = 0 ; i < User.row_Name.length ; i++){
                             if(divided_temp1[k].equals(User.row_Name[i])){
                                 view1.row_Num[j] = i;
@@ -94,62 +94,64 @@ public class console{
                     }
 
                     //조건식부분
-                    temp = "";
-                    //입력
-                    System.out.print("'*'혹은 조건식(값, 연산자, 열항목의 순서)을 입력해주세요 : ");
-                    temp = sc.nextLine();
-                    String[] divided_temp2 = temp.split(" ");
-                    if(divided_temp2.length)
-                    switch(divided_temp2.length){
-                        case 1: // '*'을 받는경우 
-                            if(divided_temp2[0].equals("*")){   // '*'인경우 
-                                for(i = 0; i < customers.size(); i++){
-                                    view1.column_Num[i] = true;
-                                }
-                            }
-                            break;
-                        case 3 : // 조건식을 받는 경우
-                            //divided_temp2의 0번 인덱스에 숫자가 들어왔는지 확인하고 변환.
-                            int selection_Num = 0;
-                            try {
-                                selection_Num = Integer.parseInt(divided_temp2[0]);
-                            } catch (NumberFormatException e) {
-                                System.out.println("지정된 양식에 맞게 작성해주세요");
-                                break;
-                            }
-                            //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
-                            for( i = 0 ; i < User.row_Name.length ; i++){
-                                if(divided_temp2[2].equals(User.row_Name[i])){
-                                    switch(divided_temp2[1]){
-                                        case "<" :
-                                            for(i = 0 ; i < customers.size() ; i++){
-                                                switch(User.row_Name[i]){
-                                                    case "age" : 
-                                                        if(selection_Num < customers.get(i).get_age()){
-                                                            view1.column_Num[i] = true;
-                                                        }
-                                                    case "mvp" :
-                                                        if(selection_Num.compareTo(customers.get(i).get_mvp())){
-                                                            view1.column_Num[i] = true;
-                                                        }
-                                                    case "grade" :
-                                                        if(selection_Num < customers.get(i).get_grade()){
-                                                            view1.column_Num[i] = true;
-                                                        }    
-                                                }
-                                            }
-                                            break;
+                    while(end_count == 10){    //사용자가 종료할 때까지 view를 수정
+                        temp = "";  //먼저 줄단위로 입력받을 변수
+                        //입력
+                        System.out.print("'*'혹은 조건식(값, 연산자, 열항목의 순서)을 입력해주세요 : ");
+                        temp = sc.nextLine();
+                        String[] divided_temp2 = temp.split(" ");   //temp로 받은 입력을 공백 문자를 기준으로 나눔
+                        
+                        switch(divided_temp2.length){
+                            case 1: // '*'을 받는경우 
+                                if(divided_temp2[0].equals("*")){   // '*'인경우 
+                                    for(i = 0; i < customers.size(); i++){
+                                        view1.column_Num[i] = true;
                                     }
+                                }   // '*'가 아닌 다른 문자열이 들어온 경우
+                                else{
+                                    System.out.println("잘못된 형식입니다."); 
+                                }
+                                break;
+                            case 3 : // 조건식을 받는 경우
+                                int selection_Num = 0;
+                                try {   //0번 인덱스에 숫자가 들어왔는지 확인하고 변환.
+                                    selection_Num = Integer.parseInt(divided_temp2[0]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("지정된 양식에 맞게 작성해주세요");
                                     break;
                                 }
-                            }
-                            break;
-                            
-                        default : 
-                            System.out.println("잘못된 형식입니다.");
-                    }  
+                                //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
+                                for( i = 0 ; i < User.row_Name.length ; i++){
+                                    if(divided_temp2[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
+                                        view1.where(selection_Num, divided_temp2[1], divided_temp2[2]);
+                                    }
+                                    else{   //문자열과 일치하는 열의 이름이 없을 경우
+                                        System.out.println("일치하는 열의 이름이 없습니다.");
+                                        break;
+                                    }
+                                }
+                                break;
+                            default :   //입력받은 문자열의 개수가 1, 3개가 아닌 경우
+                                System.out.println("잘못된 형식입니다.");
+                        }
+                        int column_count = 0;
+                        for(i = 0; i < customers.size(); i++){
+                            if(view1.column_Num[i] == true)
+                                column_count++;
+                        } 
+
+                        //선택에 따라 종료하거나 반복
+                        System.out.println("현재 선택된 행의 개수는 " + column_count + "개 입니다.");
+                        System.out.println("1. 수정을 멈추고 출력한다 2. view를 수정한다 ");
+                        user_choice = sc.nextInt();
+                        sc.nextLine();
+                        if(user_choice == 1)
+                            end_count = 10;
+                        else if(user_choice == 2)
+                            end_count++;
+                    }
                     break;
-                
+                    
                 case 2 : 
                     System.out.print("\033[H\033[2J");
                     System.out.print("이름 : ");
