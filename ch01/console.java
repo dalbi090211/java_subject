@@ -1,8 +1,9 @@
 package ch01;
 
-import java.util.Scanner;
+import java.util.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.io.File;	//txt파일을 불러올 패키지
 import java.io.FileNotFoundException;	//파일을 못 찾는 경우
 import java.io.FileReader;	//파일 읽을 거
@@ -108,9 +109,16 @@ public class console{
                         break;
                     case 2 : 
                         System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
-                        where(view1, customers);
-                        if(i == User.row_Name.length)
-                            System.out.println("일치하는 열이 없습니다.");
+                        String divided_String[]; //값, 연산자, 조건열의 순서
+                        try{
+                            divided_String = input_Where();
+                            for(j = 0; j < customers.size(); j ++){
+                                view1.where_calc(divided_String[0], divided_String[1], divided_String[2], j, customers.get(j));
+                            }
+                        }
+                        catch(Exception e){
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 3 : 
                         System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
@@ -219,7 +227,7 @@ public class console{
         sc.close();
     }
     
-    public void where(view view1, User_info customers){
+    public String[] input_Where(){
         System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
         String temp = sc.nextLine();
         String[] divided_temp2 = temp.split(" ");
@@ -234,14 +242,11 @@ public class console{
                         System.out.println("학년(grade)과 나이(age)는 정수로만 비교할 수 있습니다.");
                         break;
                     }
-                    view1.where_calc(divided_value, divided_temp2[1], divided_temp2[2], j, customers.get(j));
                 }
-                else{   //문자형 value를 필요로 하는 경우
-                    for(int j = 0 ; j < customers.size() ; j++){
-                        view1.where_calc(divided_temp2[0], divided_temp2[1], divided_temp2[2], j, customers);
-                    }
-                    break;
-                }
+                return divided_temp2;
+            }
+            else{
+                throw new InputMismatchException("일치하는 열이 없습니다.");
             }
         }
     }
