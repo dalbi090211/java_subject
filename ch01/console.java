@@ -93,57 +93,84 @@ public class console{
                             }
                         }
                     }
-
-                    //조건식부분
+                //조건식부분
                     
-                        temp = "";  //먼저 줄단위로 입력받을 변수
-                        //입력
-                        System.out.print("'*'혹은 조건식(값, 연산자, 열항목의 순서)을 입력해주세요 : ");
+                temp = "";  //먼저 줄단위로 입력받을 변수
+                //입력
+                System.out.print("1. *, 2. 조건식, 3. or연산(||) ");
+                user_choice = sc.nextInt();
+                sc.nextLine();
+                switch(user_choice){
+                    case 1 : 
+                        for(i = 0; i < customers.size(); i++){
+                            view1.column_Num[i] = true;
+                        }
+                        break;
+                    case 2 : 
+                        System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
+                        where(view1, customers);
+                        if(i == User.row_Name.length)
+                            System.out.println("일치하는 열이 없습니다.");
+                        break;
+                    case 3 : 
+                        System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
                         temp = sc.nextLine();
-                        String[] divided_temp2 = temp.split(" ");   //temp로 받은 입력을 공백 문자를 기준으로 나눔
-                        
-                        switch(divided_temp2.length){
-                            case 1: // '*'을 받는경우 
-                                if(divided_temp2[0].equals("*")){   // '*'인경우 
-                                    for(i = 0; i < customers.size(); i++){
-                                        view1.column_Num[i] = true;
+                        String[] divided_temp3 = temp.split(" ");
+                        for( i = 0 ; i < User.row_Name.length ; i++){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
+                            if(divided_temp3[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
+                                if(User.row_Name[i] == "grade" || User.row_Name[i] == "age"){   //정수형 value를 필요로 하는 경우
+                                    int divided_value = 0;
+                                    try{
+                                        divided_value = Integer.parseInt(divided_temp3[0]);
                                     }
-                                }   // '*'가 아닌 다른 문자열이 들어온 경우
-                                else{
-                                    System.out.println("잘못된 형식입니다."); 
+                                    catch (NumberFormatException e){
+                                        System.out.println("학년(grade)과 나이(age)는 정수로만 비교할 수 있습니다.");
+                                        break;
+                                    }
+                                    view1.where_calc(divided_value, divided_temp3[1], divided_temp3[2], j, customers.get(j));
                                 }
-                                break;
-                            case 3 : // 조건식을 받는 경우
-                                for( i = 0 ; i < User.row_Name.length ; i++){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
-                                    if(divided_temp2[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
-                                        if(User.row_Name[i] == "grade" || User.row_Name[i] == "age"){   //정수형 value를 필요로 하는 경우
-                                            int divided_value = 0;
-                                            try{
-                                                divided_value = Integer.parseInt(divided_temp2[0]);
-                                            }
-                                            catch (NumberFormatException e){
-                                                System.out.println("학년(grade)과 나이(age)는 정수로만 비교할 수 있습니다.");
-                                                break;
-                                            }
-                                            view1.where_calc(divided_value, divided_temp2[1], divided_temp2[2], j, customers.get(j));
+                                else{   //문자형 value를 필요로 하는 경우
+                                    for(j = 0 ; j < customers.size() ; j++){
+                                        view1.where_calc(divided_temp3[0], divided_temp3[1], divided_temp3[2], j, customers.get(j));
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        if(i == User.row_Name.length)   //if에 걸리면 break로 나오므로 i가 끝까지 올라가지않음.따라서 열의 길이와 일치하는 경우는 끝까지 if에 걸리지 않아서 조건식으로 나온 경우임.
+                            System.out.println("일치하는 열이 없습니다.");
+                        System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
+                        temp = sc.nextLine();
+                            String[] divided_temp4 = temp.split(" ");
+                            for( i = 0 ; i < User.row_Name.length ; i++){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
+                                if(divided_temp4[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
+                                    if(User.row_Name[i] == "grade" || User.row_Name[i] == "age"){   //정수형 value를 필요로 하는 경우
+                                        int divided_value = 0;
+                                        try{
+                                            divided_value = Integer.parseInt(divided_temp4[0]);
                                         }
-                                        else{   //문자형 value를 필요로 하는 경우
-                                            for(j = 0 ; j < customers.size() ; j++){
-                                                view1.where_calc(divided_temp2[0], divided_temp2[1], divided_temp2[2], j, customers.get(j));
-                                            }
+                                        catch (NumberFormatException e){
+                                            System.out.println("학년(grade)과 나이(age)는 정수로만 비교할 수 있습니다.");
                                             break;
                                         }
+                                        view1.where_calc(divided_value, divided_temp4[1], divided_temp4[2], j, customers.get(j));
+                                    }
+                                    else{   //문자형 value를 필요로 하는 경우
+                                        for(j = 0 ; j < customers.size() ; j++){
+                                            view1.where_calc(divided_temp4[0], divided_temp4[1], divided_temp4[2], j, customers.get(j));
+                                        }
+                                        break;
                                     }
                                 }
-                                if(i == User.row_Name.length)
-                                    System.out.println("일치하는 열이 없습니다.");
-                                break;
-                            default :   //입력받은 문자열의 개수가 1, 3개가 아닌 경우
-                                System.out.println("잘못된 형식입니다.");
-                        }
-
-                    break;
-                    
+                            }
+                            if(i == User.row_Name.length)
+                                System.out.println("일치하는 열이 없습니다.");
+                        break;
+                    default :   //1~3를 입력하지 않은 경우
+                        System.out.println("잘못된 형식입니다.");
+                }       
+                break;
+                
                 case 2 : 
                     System.out.print("\033[H\033[2J");
                     System.out.print("이름 : ");
@@ -192,6 +219,33 @@ public class console{
         sc.close();
     }
     
+    public void where(view view1, User_info customers){
+        System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
+        String temp = sc.nextLine();
+        String[] divided_temp2 = temp.split(" ");
+        for(int i = 0 ; i < User.row_Name.length ; i++){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
+            if(divided_temp2[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
+                if(User.row_Name[i] == "grade" || User.row_Name[i] == "age"){   //정수형 value를 필요로 하는 경우
+                    int divided_value = 0;
+                    try{
+                        divided_value = Integer.parseInt(divided_temp2[0]);
+                    }
+                    catch (NumberFormatException e){
+                        System.out.println("학년(grade)과 나이(age)는 정수로만 비교할 수 있습니다.");
+                        break;
+                    }
+                    view1.where_calc(divided_value, divided_temp2[1], divided_temp2[2], j, customers.get(j));
+                }
+                else{   //문자형 value를 필요로 하는 경우
+                    for(int j = 0 ; j < customers.size() ; j++){
+                        view1.where_calc(divided_temp2[0], divided_temp2[1], divided_temp2[2], j, customers);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
 
     public void print_menu() {
         System.out.println("------------------------------------------------------------------");
