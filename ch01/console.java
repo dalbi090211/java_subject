@@ -76,30 +76,43 @@ public class console{
             sc.nextLine();  //입력버퍼 비우기
 
             switch(user_choice){
-                case 1 :    
+                case 1 :
 
-                //출력할 열 설정
+                    //출력할 열 설정
                     j = 0;
-                    System.out.print("출력할 열 혹은 *을 입력해주세요(name, mvp, grade, age)");
+                    System.out.print("출력할 열 혹은 '*'을 입력해주세요(열 이름 : name, mvp, grade, age)");
                     temp = sc.nextLine();
-                    String[] divided_temp = temp.split(" ");
-                    System.out.println("length : " + divided_temp.length);
-                    for(int k = 0 ; k < divided_temp.length ; k++){
+                    String[] divided_temp1 = temp.split(" ");
+                    for(int k = 0 ; k < divided_temp1.length ; k++){
+                        if(divided_temp1[k] == "*"){
+                            for( i = 0 ; i < User.row_Name.length ; i++){
+                                view1.row_Num[j] = i;
+                            }
+                            break;
+                        }
                         for( i = 0 ; i < User.row_Name.length ; i++){
-                            if(divided_temp[k] == User.row_Name[i]){
+                            if(divided_temp1[k].equals(User.row_Name[i])){
                                 view1.row_Num[j] = i;
                                 j++;
-                                System.out.println ("j : " + j );
                                 i = 50;
                             }
                         }
                     }
-                    for(int k = 0 ; k < j ; k++){
 
-                        System.out.println(view1.row_Num[k]);
-                    }   
+                    //행 조건식
+                    System.out.print("'*'혹은 조건식을 입력해주세요()");
+                    temp = "";
+                    temp = sc.nextLine();
+                    String[] divided_temp2 = temp.split(" ");
+                    switch(divided_temp2.length){
+                        case 1:
+                            if(divided_temp2[0] == "*"){
+                                
+                            }
+                            break;
+                    }  
                     break;
-                //추가
+                
                 case 2 : 
                     System.out.print("\033[H\033[2J");
                     System.out.print("이름 : ");
