@@ -2,6 +2,8 @@ package ch01;
 
 import java.util.InputMismatchException;
 
+import javax.lang.model.util.ElementScanner14;
+
 interface User {    //데이터가 어떤 양식으로 들어와야하는지 정의해주는 인터페이스
     public static final String name = null;
     public static final String mvp = null;
@@ -14,42 +16,39 @@ class view {
     int[] row_Num = new int[User.row_Name.length];
     Boolean[] column_Num;
 
-    void where_calc(String selection_Value, String operator, String row_Name, int j, User_info students) throws InputMismatchException{
+    void where_calc(String selection_Value, String operator, String row_Name, int j, User_info students) throws InputMismatchException{ //value가 string일 때
         switch(row_Name){
             case "name" : // 이름을 비교하는 경우
                 switch(operator){ //연산자에 따라 연산을 수행
-                    case "<" :  
-                            if(selection_Value < students.get_mvp()){
-                                this.column_Num[j] = true;
-                            }
-                            break;
-                    case ">" :  
-                            if(selection_Value > students.get_age()){
-                                this.column_Num[j] = true;
-                            }
-                            break;
                     case "=" :  
-                            if(selection_Value == students.get_age()){
-                                this.column_Num[j] = true;
-                            }
-                            break;
+                            
                 }
                 break;
             
             case "mvp" : // 등급을 비교하는 경우
                 switch(operator){ //연산자에 따라 연산을 수행
                     case "<" :  
-                            if(selection_Value < students.get_grade()){
+                            if(selection_Value.compareTo(students.get_mvp()) < 0){
+                                this.column_Num[j] = true;
+                            }
+                            break;
+                    case "<=" :  
+                            if(selection_Value.compareTo(students.get_mvp()) < 0 || selection_Value.equals(students.get_mvp())){
                                 this.column_Num[j] = true;
                             }
                             break;
                     case ">" :  
-                            if(selection_Value > students.get_grade()){
+                            if(selection_Value.compareTo(students.get_mvp()) > 0){
+                                this.column_Num[j] = true;
+                            }
+                            break;
+                    case ">=" :  
+                            if(selection_Value.compareTo(students.get_mvp()) > 0 || selection_Value.equals(students.get_mvp())){
                                 this.column_Num[j] = true;
                             }
                             break;
                     case "=" :  
-                            if(selection_Value == students.get_grade()){
+                            if(selection_Value.equals(students.get_mvp())){
                                 this.column_Num[j] = true;
                             }
                             break;
@@ -58,7 +57,7 @@ class view {
         }
     }
 
-    void where_calc(int selection_Value, String operator, String row_Name, int j, User_info students) throws InputMismatchException{
+    void where_calc(int selection_Value, String operator, String row_Name, int j, User_info students) throws InputMismatchException{    //value가 int일 때
         switch(row_Name){
             case "age" : // 나이를 비교하는 경우
                 switch(operator){ //연산자에 따라 연산을 수행
@@ -67,8 +66,18 @@ class view {
                                 this.column_Num[j] = true;
                             }
                             break;
+                    case "<=" :  
+                            if(selection_Value < students.get_age() || selection_Value == students.get_age()){
+                                this.column_Num[j] = true;
+                            }
+                            break;
                     case ">" :  
                             if(selection_Value > students.get_age()){
+                                this.column_Num[j] = true;
+                            }
+                            break;
+                    case ">=" :  
+                            if(selection_Value > students.get_age() || selection_Value == students.get_age()){
                                 this.column_Num[j] = true;
                             }
                             break;
@@ -87,8 +96,18 @@ class view {
                                 this.column_Num[j] = true;
                             }
                             break;
+                    case "<=" :  
+                            if(selection_Value < students.get_grade() || selection_Value == students.get_grade()){
+                                this.column_Num[j] = true;
+                            }
+                            break;
                     case ">" :  
                             if(selection_Value > students.get_grade()){
+                                this.column_Num[j] = true;
+                            }
+                            break;
+                    case ">=" :  
+                            if(selection_Value > students.get_grade() || selection_Value == students.get_grade()){
                                 this.column_Num[j] = true;
                             }
                             break;
@@ -101,6 +120,7 @@ class view {
                 break;    
         }
     }
+}
 
 class User_info implements User{   //고객의 정보를 담을 객체
 
