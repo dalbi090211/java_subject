@@ -1,6 +1,9 @@
 package ch01;
 
 import java.util.Scanner;
+
+import ch01.view.User_info;
+
 import java.util.ArrayList;
 import java.io.File;	//txt파일을 불러올 패키지
 import java.io.FileNotFoundException;	//파일을 못 찾는 경우
@@ -113,17 +116,12 @@ public class console{
                                 }
                                 break;
                             case 3 : // 조건식을 받는 경우
-                                int selection_Num = 0;
-                                try {   //0번 인덱스에 숫자가 들어왔는지 확인하고 변환.
-                                    selection_Num = Integer.parseInt(divided_temp2[0]);
-                                } catch (NumberFormatException e) {
-                                    System.out.println("지정된 양식에 맞게 작성해주세요");
-                                    break;
-                                }
                                 //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
                                 for( i = 0 ; i < User.row_Name.length ; i++){
                                     if(divided_temp2[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
-                                        view1.where(selection_Num, divided_temp2[1], divided_temp2[2]);
+                                        for(j = 0 ; j < customers.size() ; j ++){
+                                            view1.where_calc(divided_temp2[0], divided_temp2[1], divided_temp2[2], j, customers.get(j));
+                                        }
                                     }
                                     else{   //문자열과 일치하는 열의 이름이 없을 경우
                                         System.out.println("일치하는 열의 이름이 없습니다.");
@@ -134,21 +132,26 @@ public class console{
                             default :   //입력받은 문자열의 개수가 1, 3개가 아닌 경우
                                 System.out.println("잘못된 형식입니다.");
                         }
-                        int column_count = 0;
-                        for(i = 0; i < customers.size(); i++){
-                            if(view1.column_Num[i] == true)
-                                column_count++;
-                        } 
 
                         //선택에 따라 종료하거나 반복
-                        System.out.println("현재 선택된 행의 개수는 " + column_count + "개 입니다.");
-                        System.out.println("1. 수정을 멈추고 출력한다 2. view를 수정한다 ");
-                        user_choice = sc.nextInt();
-                        sc.nextLine();
-                        if(user_choice == 1)
+                        if(end_count == 9){     //만약 10번 이상 수정했다면 선택을 묻지 않고 탈출
                             end_count = 10;
-                        else if(user_choice == 2)
-                            end_count++;
+                        }
+                        else{   //8번 이하로 수정했다면 선택을 물음
+                            int column_count = 0;   //선택된 행의 개수
+                            for(i = 0; i < customers.size(); i++){
+                                if(view1.column_Num[i] == true)
+                                    column_count++;
+                            } 
+                            System.out.println("현재 선택된 행의 개수는 " + column_count + "개 입니다.");
+                            System.out.println("1. 수정을 멈추고 출력 2. view를 수정 ");
+                            user_choice = sc.nextInt();
+                            sc.nextLine();
+                            if(user_choice == 1)
+                                end_count = 10;
+                            else if(user_choice == 2)
+                                end_count++;
+                        }
                     }
                     break;
                     
