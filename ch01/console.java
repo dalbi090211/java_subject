@@ -96,8 +96,8 @@ public class console{
                             }
                         }
                     }
-                    //조건식부분
-                        
+
+                    //조건식부분    
                     temp = "";  //먼저 줄단위로 입력받을 변수
                     //입력
                     System.out.print("1. *, 2. 조건식, 3. or연산(||) ");
