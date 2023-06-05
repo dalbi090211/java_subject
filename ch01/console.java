@@ -109,7 +109,7 @@ public class console{
                         break;
                     case 2 : 
                         System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
-                        String divided_String[]; //값, 연산자, 조건열의 순서
+                        ArrayList divided_String[]; //값, 연산자, 조건열의 순서
                         try{
                             divided_String = input_Where();
                             for(j = 0; j < customers.size(); j ++){
@@ -227,13 +227,15 @@ public class console{
         sc.close();
     }
     
-    public String[] input_Where(){
+    public ArrayList input_Where(){
+        int m = 0;
         System.out.println("조건식을 입력해주세요(값, 연산자, 기준열 의 순서)");
         String temp = sc.nextLine();
         String[] divided_temp2 = temp.split(" ");
-        for(int i = 0 ; i < User.row_Name.length ; i++){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
-            if(divided_temp2[2].equals(User.row_Name[i])){  //입력받은 문자열과 열의 이름이 일치할 경우
-                if(User.row_Name[i] == "grade" || User.row_Name[i] == "age"){   //정수형 value를 필요로 하는 경우
+        ArrayList for
+        for(m = 0 ; m < User.row_Name.length ; m++ ){   //2번 인덱스에 들어온 문자열과 일치하는 문자열을 찾고 값을 넣음
+            if(divided_temp2[2].equals(User.row_Name[m])){  //입력받은 문자열과 열의 이름이 일치할 경우
+                if(User.row_Name[m] == "grade" || User.row_Name[m] == "age"){   //정수형 value를 필요로 하는 경우
                     int divided_value = 0;
                     try{
                         divided_value = Integer.parseInt(divided_temp2[0]);
@@ -245,9 +247,9 @@ public class console{
                 }
                 return divided_temp2;
             }
-            else{
-                throw new InputMismatchException("일치하는 열이 없습니다.");
-            }
+        }
+        if(m == User.row_Name.length){
+            throw new InputMismatchException("일치하는 열이 없습니다.");
         }
     }
 
