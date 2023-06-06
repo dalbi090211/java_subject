@@ -23,8 +23,6 @@ public class console{
         int  i, j;
         Boolean end_flag = true;	//프로그램의 종료 트리거
         int user_choice;
-        String name, mvp;
-        int grade, age;
         String[] Str_temp = new String[4];
         view view1 = new view();
         String temp = "";
@@ -108,9 +106,7 @@ public class console{
                         }
                     }
 
-                    //조건식부분    
-                    temp = "";  //먼저 줄단위로 입력받을 변수
-                    //입력
+                    //조건식부분
                     System.out.print("1. *, 2. 조건식, 3. or연산(||) ");
                     user_choice = sc.nextInt();
                     sc.nextLine();
@@ -135,7 +131,7 @@ public class console{
                     print_view(view1, customers);
 
                     //계속 실행할지 여부를 묻는 부분
-                    System.out.println("계속 실행하려면 1, 아니면 아무 값이나 입력해주세요.");
+                    System.out.println("계속 실행하려면 1, 아니면 아무 숫자나 입력해주세요.");
                     user_choice = sc.nextInt();
                     if(user_choice != 1){
                         end_flag = false;
@@ -145,21 +141,21 @@ public class console{
                 case 2 :    //insert를 선택한 경우
                     Boolean end_trigger = false;
                     i = 0;
-                    String temp_Arr[] = new String[User.row_Name.length];   //name age mvp grade순서로 입력받음
-                    int age_value, grade_value; //숫자로 변환해야하는 값들
+                    String temp_Arr[] = new String[User.row_Name.length];   //한 줄로 받은 입력을 공백을 기준으로 나눌 문자열
+                    int age_value = 0, grade_value = 0; //숫자로 변환해야하는 값들
                     while(end_trigger != true){
                         try{
                         //사용자에게 입력받는 부분
-                          System.out.println(User.row_Name[i] + "값을 입력해주세요 : ");
+                          System.out.print(User.row_Name[i] + "값을 입력해주세요 : ");
                           temp_Arr[i] = sc.next();
                         //입력받은 값이 정확한지 검사하는 부분
                         switch(i){
-                            case 0 : 
+                            case 0 : //name
                                 if(temp_Arr[i].length() != 3){
                                     throw new InputMismatchException("이름은 세글자로 입력해주세요.");
                                 }
                                 break;
-                            case 1 : 
+                            case 1 : //age
                                 try{
                                     age_value = Integer.parseInt(temp_Arr[i]);
                                 }
@@ -169,12 +165,18 @@ public class console{
                                 if(age_value > 123 || age_value <= 0){
                                     throw new InputMismatchException("0~122사이의 숫자를 입력해주세요.");
                                 }
-                            case 2 : 
-                                if(temp_Arr[i].length() != 3){
-                                    throw new InputMismatchException("이름은 세글자로 입력해주세요.");
+                                break;
+                            case 2 : //mvp
+                                if(temp_Arr[i].length() != 1){
+                                    throw new InputMismatchException("등급은 a~f 로 입력해주세요");
+                                }
+                                else{
+                                    if(temp_Arr[i].compareTo("a") < -1 || temp_Arr[i].compareTo("f") > 1 ){
+                                        throw new InputMismatchException("등급은 소문자 a~f의 형태로 입력해주세요.");
+                                    }
                                 }
                                 break;
-                            case 3 : 
+                            case 3 : //grade
                                 try{
                                     grade_value = Integer.parseInt(temp_Arr[i]);
                                 }
@@ -184,43 +186,94 @@ public class console{
                                 if(grade_value> 5 || grade_value <= 0){
                                     throw new InputMismatchException("0~5사이의 학년을 입력해주세요.");
                                 }
-                        }
-
-                          //정상적으로 입력을 마친 경우
-                          i++;
-                          if(i == 4)
-                            end_trigger = true;  
+                                break;
+                            }  
                         }
                         catch(InputMismatchException e){
                             System.out.println(e.getMessage());
+                            i--;
                         }
+                        //입력을 마칠때마다 i를 증가시키고, 전부 입력받았다면 루프를 종료
+                        i++;
+                        if(i == 4)
+                            end_trigger = true;
                     }
-    		    	 customers.add(new User_info(temp[0], age_value, temp[2], grade_value));
+    		    	 customers.add(new User_info(temp_Arr[0], age_value, temp_Arr[2], grade_value));
+                     System.out.println("이름 : " + temp_Arr[0] + " 나이 : " + age_value + " 등급 : " + temp_Arr[2] + " 학년 : " + grade_value + "인 데이터을 삽입했습니다.");
                      break;
-                /* 
+                 
                 case 3 : //update를 선택한 경우
-                    System.out.print("\033[H\033[2J");
-                	for(i = 0 ; i  < arr_max; i++) {
-                    	customers.get(i).print_information();
-                	}
-                    System.out.println("------------------------------------------------------------------");
-                    System.out.println("1. 고객 삭제   |  2. 고객 정보 수정   |   3. 종료");
-                    System.out.println("------------------------------------------------------------------");
-                    System.out.println("실행할 번호를 입력하세요 : ");
-                    //번호에 따른 예외처리 필요
+                    //변수선언 부분
+                    int count = 0;
+                    String row_name, change_value;
+                    int int_value = 0;
+
+                    //set부분
+                    System.out.println("바꿀 열 : ");
+                    row_name = sc.next();
+                    System.out.println("바꿀 값 : ");
+                    change_value = sc.next();
+
+
+                    //where부분
+                    for(i = 0 ; i < customers.size() ; i++){    //view초기화
+                        view1.column_Num[i] = false;
+                    }
+                    System.out.print("1. *, 2. 조건식, 3. or연산(||)");
                     user_choice = sc.nextInt();
+                    sc.nextLine();
                     switch(user_choice){
-                        case 1 :
-                            System.out.println("삭제할 학생의 번호를 입력해주세요.(0입력 시 지우지않음)");
-                            user_choice = sc.nextInt();
-                            if(user_choice!=0 && user_choice < arr_max - 1){
-                                customers.remove(user_choice);
-                                arr_max--;
+                        case 1 :    //전체를 선택한 경우
+                            for(i = 0; i < customers.size(); i++){
+                                view1.column_Num[i] = true;
                             }
                             break;
+                        case 2 :    //하나의 조건식만 선택한 경우
+                            input_Where(view1, customers);
+                            break;
+                        case 3 : //두 개의 조건식을 선택한 경우
+                            input_Where(view1, customers);
+                            input_Where(view1, customers);
+                            break;
+                        default :   //1~3를 입력하지 않은 경우
+                            throw new InputMismatchException("실행하려는 번호를 입력해주세요.");
                     }
+
+                    //변경하는 부분
+                    if(row_name == "age" || row_name == "grade"){
+                        try{
+                            int_value = Integer.parseInt(change_value);
+                        }
+                        catch (NumberFormatException e){
+                            throw new InputMismatchException("나이, 학년에는 숫자값을 넣어주세요.");
+                        }
+                    }
+                    for(i = 0 ; i < customers.size(); i++){    //i는 학생의 수
+                        if(view1.column_Num[i] == true){
+                            switch(row_name){
+                                case "age" : 
+                                    customers.get(i).set_age(int_value);
+                                    break;
+
+                                case "grade" : 
+                                    customers.get(i).set_grade(int_value);
+                                    break;
+
+                                case "name" : 
+                                    customers.get(i).set_name(change_value);
+                                    break;
+
+                                case "mvp" :
+                                    customers.get(i).set_mvp(change_value);
+                                    break;
+
+                                default : 
+                                    throw new InputMismatchException("일치하는 열이 없습니다.");
+                            }
+                        }
+                     }
+
                     break;
-                */
                 //종료
                 case 5 : 
                     end_flag = false;
@@ -296,7 +349,7 @@ public class console{
                 System.out.println();
             }
          }
-         System.out.println("조회된 데이터의 개수는 총 " + count + "개 입니다.");
+         System.out.println("변경된 데이터의 개수는 총 " + count + "개 입니다.");
     }
 
     public void print_menu() {
