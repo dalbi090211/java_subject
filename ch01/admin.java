@@ -15,34 +15,34 @@ class view {
     int[] row_Num = new int[User.row_Name.length];
     Boolean[] column_Num;
 
-    void where_calc(String selection_Value, String operator, String row_Name, ArrayList<User_info> customers) throws InputMismatchException{ //인자로 조건식(값, 연산자, 열의 순서), 고객리스트를 받고 연산에 따라 표기여부를 변경하는 함수
+    void where_calc(String row_Name, String operator, String selection_Value, ArrayList<User_info> customers) throws InputMismatchException{ //인자로 조건식(값, 연산자, 열의 순서), 고객리스트를 받고 연산에 따라 표기여부를 변경하는 함수
         int i = 0;
         switch(row_Name){
             case "name" : // 이름을 비교하는 경우
                 switch(operator){ //연산자에 따라 연산을 수행
                     //인코딩값을 비교
-                    case "<" :  
+                    case ">" :  
                     for(i = 0; i < customers.size(); i ++){
                         if(selection_Value.compareTo(customers.get(i).get_name()) < 0){
                             this.column_Num[i] = true;
                         }
                     }
                     break;
-                    case "<=" :  
+                    case ">=" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_name()) < 0 || selection_Value.equals(customers.get(i).get_name())){
                                 this.column_Num[i] = true;
                             }
                         }
                         break;
-                    case ">" :  
+                    case "<" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_name()) > 0){
                                 this.column_Num[i] = true;
                             }
                         }
                         break;
-                    case ">=" :  
+                    case "<=" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_name()) > 0 || selection_Value.equals(customers.get(i).get_name())){
                                 this.column_Num[i] = true;
@@ -81,28 +81,28 @@ class view {
             
             case "mvp" : // 등급을 비교하는 경우
                 switch(operator){ //연산자에 따라 연산을 수행
-                    case "<" :  
+                    case ">" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_mvp()) < 0){
                                 this.column_Num[i] = true;
                             }
                         }
                         break;
-                    case "<=" :  
+                    case ">=" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_mvp()) < 0 || selection_Value.equals(customers.get(i).get_mvp())){
                                 this.column_Num[i] = true;
                             }
                         }
                         break;
-                    case ">" :  
+                    case "<" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_mvp()) > 0){
                                 this.column_Num[i] = true;
                             }
                         }
                         break;
-                    case ">=" :  
+                    case "<=" :  
                         for(i = 0; i < customers.size(); i ++){
                             if(selection_Value.compareTo(customers.get(i).get_mvp()) > 0 || selection_Value.equals(customers.get(i).get_mvp())){
                                 this.column_Num[i] = true;
@@ -121,33 +121,33 @@ class view {
         }
     }
 
-    void where_calc(int selection_Value, String operator, String row_Name, ArrayList<User_info> customers) throws InputMismatchException{    //인자로 조건식(값, 연산자, 열의 순서), 고객리스트를 받고 연산에 따라 표기여부를 변경하는 함수
+    void where_calc(String row_Name, String operator, int selection_Value, ArrayList<User_info> customers) throws InputMismatchException{    //인자로 조건식(값, 연산자, 열의 순서), 고객리스트를 받고 연산에 따라 표기여부를 변경하는 함수
         int i = 0;
             switch(row_Name){
                 case "age" : // 나이를 비교하는 경우
                     switch(operator){ //연산자에 따라 연산을 수행
-                        case "<" :  
+                        case ">" :  
                             for(i = 0; i < customers.size(); i ++){
                                 if(selection_Value < customers.get(i).get_age()){
                                     this.column_Num[i] = true;
                                 }
                             }
                             break;
-                        case "<=" :  
+                        case ">=" :  
                             for(i = 0; i < customers.size(); i ++){
                                 if(selection_Value < customers.get(i).get_age() || selection_Value == customers.get(i).get_age()){
                                     this.column_Num[i] = true;
                                 }
                             }
                             break;
-                        case ">" :  
+                        case "<" :  
                             for(i = 0; i < customers.size(); i ++){
                                 if(selection_Value > customers.get(i).get_age()){
                                     this.column_Num[i] = true;
                                 }
                             }
                             break;
-                        case ">=" :  
+                        case "<=" :  
                             for(i = 0; i < customers.size(); i ++){
                                 if(selection_Value > customers.get(i).get_age() || selection_Value == customers.get(i).get_age()){
                                     this.column_Num[i] = true;
@@ -166,28 +166,28 @@ class view {
                 
                     case "grade" : // 등급을 비교하는 경우
                         switch(operator){ //연산자에 따라 연산을 수행
-                            case "<" :  
+                            case ">" :  
                                 for(i = 0; i < customers.size(); i ++){
                                     if(selection_Value < customers.get(i).get_grade()){
                                         this.column_Num[i] = true;
                                     }
                                 }
                                 break;
-                            case "<=" :  
+                            case ">=" :  
                                 for(i = 0; i < customers.size(); i ++){
                                     if(selection_Value < customers.get(i).get_grade() || selection_Value == customers.get(i).get_grade()){
                                         this.column_Num[i] = true;
                                     }
                                 }
                                 break;
-                            case ">" :  
+                            case "<" :  
                                 for(i = 0; i < customers.size(); i ++){
                                     if(selection_Value > customers.get(i).get_grade()){
                                         this.column_Num[i] = true;
                                     }
                                 }
                                 break;
-                            case ">=" :  
+                            case "<=" :  
                                 for(i = 0; i < customers.size(); i ++){
                                     if(selection_Value > customers.get(i).get_grade() || selection_Value == customers.get(i).get_grade()){
                                         this.column_Num[i] = true;
