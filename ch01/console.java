@@ -5,8 +5,6 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
-import javax.print.attribute.standard.MediaSize.NA;
-
 import java.io.File;	//txt파일을 불러올 패키지
 import java.io.FileNotFoundException;	//파일을 못 찾는 경우
 import java.io.FileReader;	//파일 읽을 거
@@ -25,7 +23,6 @@ public class console{
         int user_choice;
         String[] Str_temp = new String[4];
         view view1 = new view();
-        String temp = "";
         
         //고객리스트 생성
         ArrayList<User_info> customers = new ArrayList<User_info>();
@@ -60,8 +57,11 @@ public class console{
         	System.out.println("잘못된 파일 입니다.");
         	end_flag = false;
         }
-        //data의 개수만큼 view의 행을 생성
-       view1.column_Num = new Boolean[customers.size()];
+
+        view1.column_Num = new ArrayList<Boolean> (customers.size());
+        for(i = 0 ; i < customers.size(); i++){
+            view1.column_Num.add(false);
+        }
 
         //프로그램실행, 5번을 입력받아 end_flag가 flase가 되면 종료
         while(end_flag){    //1. SELECT   |   2. INSERT   |   3. UPDATE   |   4. DELETE   |   5. END 순서
@@ -71,36 +71,55 @@ public class console{
 
             switch(user_choice){    
                 case 1 :    //select를 선택한 경우
+                    String temp = "";   //값을 입력받을 변수
+                    String selection_row = "";
 
                     //view의 값들을 초기화
-                    for(i = 0 ; i < customers.size() ; i++){
-                        view1.column_Num[i] = false;
+                    for(i = 0 ; i < customers.size(); i++){
+                         view1.column_Num.set(i, false);
                     }
                     for(i = 0 ; i < User.row_Name.length; i ++){
                         view1.row_Num[i] = END;
                     }
 
+                    //정렬 부분(오름차순만)
+                    System.out.print("정렬할 기준열 : ");
+                    selection_row = sc.next();
+                    if(selection_row.equals("name"))
+                            Collections.sort(customers, new NameComparator());
+                    else if(selection_row.equals("age"))
+                            Collections.sort(customers, new AgeComparator());
+                    else if(selection_row.equals("mvp"))
+                            Collections.sort(customers, new MVPComparator());
+                    else if(selection_row.equals("grade"))
+                            Collections.sort(customers, new GradeComparator());
+                    else
+                        System.out.println("name, age, mvp, grade 중 입력해주세요.");
+                    sc.nextLine();
+
                     //출력할 열 설정부분
-                    j = 0;
                     System.out.print("출력할 열항목 혹은 '*'을 입력해주세요(열 이름 : name, age, mvp, grade) : ");
                     temp = sc.nextLine();
                     String[] divided_temp = temp.split(" ");
-                    if(divided_temp[0] == "*"){    // '*'을 선택한 경우 모든 열을 선택하고 break로 탈출
-                            for( i = 0 ; i < User.row_Name.length ; i++){
-                                view1.row_Num[j] = i;
+                    if(divided_temp[0].length() == 1){  // '*'이 아닌 경우 하나하나씩 비교하여 일치하는 열을 찾고 입력받은 열의 인덱스를 view1에 등록
+                        if(divided_temp[0].equals("*")){    // '*'을 선택한 경우 모든 열을 선택하고 break로 탈출
+                            for( j = 0 ; j < User.row_Name.length ; j++){
+                                view1.row_Num[j] = j;
                             }
-                            break;
+                        }
+                        else{
+                            throw new InputMismatchException("문자열의 형식으로 열의 이름을 입력해주세요.");
+                        }
                     }
-                    else{   // '*'이 아닌 경우 하나하나씩 비교하여 일치하는 열을 찾고 입력받은 열의 인덱스를 view1에 등록
-                        for(int k = 0 ; k < divided_temp.length ; k++){
-                            for( i = 0 ; i < User.row_Name.length ; i++){
-                                if(divided_temp[k].equals(User.row_Name[i])){  //일치하는 열을 찾은 경우
-                                    view1.row_Num[j] = i;
-                                    j++;
-                                    i = END - 1;    //루프를 종료
+                    else{
+                        for(i = 0 ; i < divided_temp.length ; i++){
+                            for( j = 0 ; j < User.row_Name.length ; j++){
+                                if(divided_temp[i].equals(User.row_Name[j])){  //일치하는 열을 찾은 경우
+                                    view1.row_Num[i] = j;
+                                    j = END - 1;    //루프를 종료
                                 }
                             }
-                            if(i != END){   //일치하는 열이 없는 경우
+                            if(j != END){   //일치하는 열이 없는 경우
                                 throw new InputMismatchException("일치하는 열이 없습니다.");
                             }
                         }
@@ -113,7 +132,7 @@ public class console{
                     switch(user_choice){
                         case 1 :    //전체를 선택한 경우
                             for(i = 0; i < customers.size(); i++){
-                                view1.column_Num[i] = true;
+                                view1.column_Num.set(i, true);
                             }
                             break;
                         case 2 :    //하나의 조건식만 선택한 경우
@@ -199,10 +218,12 @@ public class console{
                             end_trigger = true;
                     }
     		    	 customers.add(new User_info(temp_Arr[0], age_value, temp_Arr[2], grade_value));
+                     view1.column_Num.add(false);
                      System.out.println("이름 : " + temp_Arr[0] + " 나이 : " + age_value + " 등급 : " + temp_Arr[2] + " 학년 : " + grade_value + "인 데이터을 삽입했습니다.");
                      break;
                  
                 case 3 : //update를 선택한 경우
+
                     //변수선언 부분
                     int count = 0;
                     String row_name, change_value;
@@ -217,7 +238,7 @@ public class console{
 
                     //where부분
                     for(i = 0 ; i < customers.size() ; i++){    //view초기화
-                        view1.column_Num[i] = false;
+                        view1.column_Num.set(i, false);
                     }
                     System.out.print("1. *, 2. 조건식, 3. or연산(||)");
                     user_choice = sc.nextInt();
@@ -225,7 +246,7 @@ public class console{
                     switch(user_choice){
                         case 1 :    //전체를 선택한 경우
                             for(i = 0; i < customers.size(); i++){
-                                view1.column_Num[i] = true;
+                                view1.column_Num.set(i, true);
                             }
                             break;
                         case 2 :    //하나의 조건식만 선택한 경우
@@ -249,7 +270,8 @@ public class console{
                         }
                     }
                     for(i = 0 ; i < customers.size(); i++){    //i는 학생의 수
-                        if(view1.column_Num[i] == true){
+                        if(view1.column_Num.get(i) == true){
+                            count++;
                             switch(row_name){
                                 case "age" : 
                                     customers.get(i).set_age(int_value);
@@ -272,8 +294,29 @@ public class console{
                             }
                         }
                      }
-
+                    System.out.println("총 " + count + "개의 데이터를 수정하였습니다.");
                     break;
+
+                case 4 :    //delete
+                    count = 0;
+                    //view초기화
+                    for(i = 0 ; i < customers.size(); i++){
+                        view1.column_Num.set(i, false);
+                    }
+
+                    //삭제
+                    System.out.print("삭제할 조건에 쓰일 ");
+                    input_Where(view1, customers);
+                    for(i = customers.size() - 1 ; i >= 0; i--){
+                        if(view1.column_Num.get(i) == true){
+                            count++;
+                            customers.remove(i);
+                            view1.column_Num.remove(i);
+                        }
+                    }
+                    System.out.println("총 " + count + "개의 열을 삭제했습니다.");
+                     break;
+                     
                 //종료
                 case 5 : 
                     end_flag = false;
@@ -285,6 +328,7 @@ public class console{
         sc.close();
     }
     
+
     public void input_Where(view view1, ArrayList<User_info> customers){    //조건식을 입력받고 view를 수정하는 where_calc함수를 호출하는 메소드
         int m = 0;
         System.out.println("조건식을 입력해주세요(기준열 연산자 값 의 순서)");
@@ -319,13 +363,12 @@ public class console{
         int count = 0;
          for(i = 0 ; i < view1.row_Num.length ; i++){
             if(view1.row_Num[i] != END){
-                System.out.print(" " + User.row_Name[view1.row_Num[i]]);
-                System.out.print("view1.row_Num[i] : " + view1.row_Num[i]);
+                System.out.print("  " + User.row_Name[view1.row_Num[i]]);
             }
          }
          System.out.println();
          for(i = 0 ; i < customers.size(); i++){    //i는 학생의 수
-            if(view1.column_Num[i] == true){    //ivew의 column_num이 true라면 출력
+            if(view1.column_Num.get(i) == true){    //ivew의 column_num이 true라면 출력
                 count++;
                 //view의 row_num이 0인지 아닌지에 따라 열을 출력
                 for(j = 0 ; j < view1.row_Num.length ; j++){    // j는 열의 번호
@@ -349,7 +392,7 @@ public class console{
                 System.out.println();
             }
          }
-         System.out.println("변경된 데이터의 개수는 총 " + count + "개 입니다.");
+         System.out.println("검색된 데이터의 개수는 총 " + count + "개 입니다.");
     }
 
     public void print_menu() {
